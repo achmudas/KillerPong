@@ -1,12 +1,13 @@
 package net.killerpong.main;
 
+import org.newdawn.slick.Animation;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.tiled.TiledMap;
 
 /**
  * 
@@ -14,7 +15,13 @@ import org.newdawn.slick.tiled.TiledMap;
  *
  */
 public class KillerPong extends BasicGame {
+	
+	private static final int SIZE = 34;
 	private Image grassBackground;
+	
+	private Animation sprite;
+	
+	private float x = 34f, y = 34f;
 
 	public KillerPong() {
 		super("Killer Pong");
@@ -38,6 +45,8 @@ public class KillerPong extends BasicGame {
 	@Override
 	public void render(GameContainer arg0, Graphics arg1) throws SlickException {
 		grassBackground.draw();
+		
+		sprite.draw((int)x, (int)y);
 
 	}
 
@@ -45,13 +54,29 @@ public class KillerPong extends BasicGame {
 	public void init(GameContainer arg0) throws SlickException {
 		// Loading all resources
 		grassBackground = new Image("res/tile_grass.png");
+		
+		Image [] paddle = {new Image("res/paddle.png")};
+		int [] duration = {300};
+		
+		sprite = new Animation(paddle, duration, false);
 
 	}
 
 	@Override
-	public void update(GameContainer arg0, int arg1) throws SlickException {
-		// TODO Auto-generated method stub
+	public void update(GameContainer container, int delta) throws SlickException {
+		 Input input = container.getInput();
+         if (input.isKeyDown(Input.KEY_UP))
+         {
+                 // The lower the delta the slowest the sprite will animate.
+                 y -= delta * 0.2f;
+             }
+	
+		if (input.isKeyDown(Input.KEY_DOWN))
+	    {
+	            // The lower the delta the slowest the sprite will animate.
+	            y += delta * 0.2f;
+	        }
+	    }
 
-	}
 
 }

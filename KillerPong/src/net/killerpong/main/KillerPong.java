@@ -16,16 +16,17 @@ import org.newdawn.slick.SlickException;
  */
 public class KillerPong extends BasicGame {
 	
-	private static final int SIZE = 34;
+	private static final float UPPER_WALL = 18f;
+	private static final float BOTTOM_WALL = 425f;
+
 	private Image grassBackground;
 	
-	private Animation sprite;
+	private Paddle playerPaddle;
+	private Paddle enemyPaddle;
 	
-	private float x = 34f, y = 34f;
-
+	
 	public KillerPong() {
 		super("Killer Pong");
-		// TODO Auto-generated constructor stub
 	}
 	
 	public static void main(String[] arguments)
@@ -46,7 +47,8 @@ public class KillerPong extends BasicGame {
 	public void render(GameContainer arg0, Graphics arg1) throws SlickException {
 		grassBackground.draw();
 		
-		sprite.draw((int)x, (int)y);
+		playerPaddle.getSprite().draw((int)playerPaddle.getX(), (int)playerPaddle.getY());
+		enemyPaddle.getSprite().draw((int)enemyPaddle.getX(), (int)enemyPaddle.getY());
 
 	}
 
@@ -55,28 +57,38 @@ public class KillerPong extends BasicGame {
 		// Loading all resources
 		grassBackground = new Image("res/tile_grass.png");
 		
-		Image [] paddle = {new Image("res/paddle.png")};
-		int [] duration = {300};
+		playerPaddle = new Paddle();
+		enemyPaddle = new Paddle();
+		enemyPaddle.setX(725f); //Changing starting possition
 		
-		sprite = new Animation(paddle, duration, false);
+		
+
 
 	}
 
 	@Override
 	public void update(GameContainer container, int delta) throws SlickException {
 		 Input input = container.getInput();
+		 float playerY = playerPaddle.getY();
+		 
          if (input.isKeyDown(Input.KEY_UP))
          {
+        	 if (playerY > UPPER_WALL) {
                  // The lower the delta the slowest the sprite will animate.
-                 y -= delta * 0.2f;
-             }
+                 playerY -= delta * 0.2f;
+                 playerPaddle.setY(playerY);
+        	 }
+          }
 	
 		if (input.isKeyDown(Input.KEY_DOWN))
 	    {
-	            // The lower the delta the slowest the sprite will animate.
-	            y += delta * 0.2f;
+			if (playerY < BOTTOM_WALL) {
+				 // The lower the delta the slowest the sprite will animate.
+	            playerY += delta * 0.2f;
+                playerPaddle.setY(playerY);
+			}
+	           
 	        }
 	    }
-
 
 }

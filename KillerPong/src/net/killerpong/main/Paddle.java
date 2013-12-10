@@ -8,38 +8,18 @@ import org.newdawn.slick.SlickException;
  * @author achmudas
  *
  */
-public class Paddle {
+public class Paddle extends GameObject{
 
-	private Animation sprite;
-	
-	private float x = 25f, y = 250f;
-	
 	public Paddle() throws SlickException {
 		
 		Image [] paddle = {new Image("res/paddle.png")};
 		int [] duration = {300};
 		
-		sprite = new Animation(paddle, duration, false);
+		setSprite(new Animation(paddle, duration, false));
+		setX(25f);
+		setY(250f);
 	}
 	
-	public Animation getSprite() {
-		return sprite;
-	}
 
-	public float getX() {
-		return x;
-	}
-
-	public void setX(float x) {
-		this.x = x;
-	}
-
-	public float getY() {
-		return y;
-	}
-
-	public void setY(float y) {
-		this.y = y;
-	}
 
 }

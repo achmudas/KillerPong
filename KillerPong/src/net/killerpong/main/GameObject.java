@@ -2,6 +2,11 @@ package net.killerpong.main;
 
 import org.newdawn.slick.Animation;
 
+/**
+ * 
+ * @author MkA
+ * Abstract class representing game objects with sprites
+ */
 abstract public class GameObject {
 	
 	private Animation sprite;

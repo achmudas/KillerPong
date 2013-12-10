@@ -23,6 +23,7 @@ public class KillerPong extends BasicGame {
 	
 	private Paddle playerPaddle;
 	private Paddle enemyPaddle;
+	private Ball ball;
 	
 	
 	public KillerPong() {
@@ -49,6 +50,8 @@ public class KillerPong extends BasicGame {
 		
 		playerPaddle.getSprite().draw((int)playerPaddle.getX(), (int)playerPaddle.getY());
 		enemyPaddle.getSprite().draw((int)enemyPaddle.getX(), (int)enemyPaddle.getY());
+		
+		ball.getSprite().draw((int)ball.getX(), (int)ball.getY());
 
 	}
 
@@ -59,11 +62,18 @@ public class KillerPong extends BasicGame {
 		
 		playerPaddle = new Paddle();
 		enemyPaddle = new Paddle();
-		enemyPaddle.setX(725f); //Changing starting possition
+		enemyPaddle.setX(725f); //Changing starting position
 		
+		initBall();
+	
 		
 
+	}
 
+	private void initBall() throws SlickException {
+		ball = new Ball();
+		ball.setX(playerPaddle.getX());
+		ball.setY(playerPaddle.getY());
 	}
 
 	@Override
@@ -71,8 +81,7 @@ public class KillerPong extends BasicGame {
 		 Input input = container.getInput();
 		 float playerY = playerPaddle.getY();
 		 
-         if (input.isKeyDown(Input.KEY_UP))
-         {
+         if (input.isKeyDown(Input.KEY_UP)) {
         	 if (playerY > UPPER_WALL) {
                  // The lower the delta the slowest the sprite will animate.
                  playerY -= delta * 0.2f;
@@ -80,8 +89,7 @@ public class KillerPong extends BasicGame {
         	 }
           }
 	
-		if (input.isKeyDown(Input.KEY_DOWN))
-	    {
+		if (input.isKeyDown(Input.KEY_DOWN)) {
 			if (playerY < BOTTOM_WALL) {
 				 // The lower the delta the slowest the sprite will animate.
 	            playerY += delta * 0.2f;
@@ -89,6 +97,25 @@ public class KillerPong extends BasicGame {
 			}
 	           
 	        }
-	    }
+		
+		if (input.isMousePressed(0)) {
+			ball.setReleasedInd(true);
+		}
+		
+		// Update ball
+		if (!ball.isReleasedInd()) {
+			ball.setX(playerPaddle.getX());
+			ball.setY(playerPaddle.getY());
+		} else {
+			float ballX = ball.getX();
+			ballX += delta * 0.4f;
+			ball.setX(ballX);
+		}
+		
+		
+	}
+	
+
+		
 
 }
